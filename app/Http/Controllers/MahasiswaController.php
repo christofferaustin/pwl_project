@@ -12,7 +12,9 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        //
+        return view('mahasiswa.index', [
+            'mahasiswa' => Mahasiswa::all()
+        ]);
     }
 
     /**
@@ -20,7 +22,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('mahasiswa.create', []);
     }
 
     /**
@@ -28,38 +30,49 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token');
+
+        Mahasiswa::create($data);
+
+        return redirect()->action([MahasiswaController::class, 'index']);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Mahasiswa $mahasiswa)
+    public function show($id)
     {
-        //
+        return Mahasiswa::find($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Mahasiswa $mahasiswa)
+    public function edit($id)
     {
-        //
+        return view('mahasiswa.edit', [
+            'mahasiswa' => Mahasiswa::find($id)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Mahasiswa $mahasiswa)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->except('_token', 'id', '_method');
+
+        Mahasiswa::find($id)->update($data);
+
+        return redirect()->action([MahasiswaController::class, 'index']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Mahasiswa $mahasiswa)
+    public function destroy($id)
     {
-        //
+         Mahasiswa::find($id)->delete();
+         return redirect()->action([MahasiswaController::clas,'index']);
     }
 }
