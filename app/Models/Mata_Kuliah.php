@@ -2,9 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mata_Kuliah extends Model
-{
-    protected $table = 'table_mata_kuliah';
+class Matakuliah extends Model 
+{ 
+    use HasFactory;
+
+    protected $table = 'mata_kuliah';
+    
+    protected $fillable = [
+        'jurusan_id',
+        'kode_mk',
+        'nama_mk',
+        'sks',
+        'dosen_id',
+    ];
 }

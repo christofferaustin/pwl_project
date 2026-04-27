@@ -12,7 +12,7 @@
   </body>
 
     
-    <a href="{{ action([App\Http\Controllers\MahasiswaController::class, 'create']) }}">
+    <a href="{{ action([App\Http\Controllers\DosenController::class, 'create']) }}">
     <input type="button" class="btn btn-primary btn-lg" value="Create">
     </a>
 
@@ -25,8 +25,10 @@
         <thead>
             <th>No</th>
             <th>Nama Lengkap</th>
-            <th>NIM</th>
+            <th>NIP</th>
             <th>NIDN</th>
+            <th>Pendidikan Terakhir</th>
+            <th>Jurusan Id</th>
             <th>Tempat/Tanggal Lahir</th>
             <th>Alamat</th>
             <th>Tanggal Pembuatan</th>
@@ -34,20 +36,22 @@
         </thead>
 
         <tbody>
-            @foreach ($mahasiswa as $m)
+            @foreach ($dosen as $d)
             <tr>
-                <td>{{$m->id}}</td> 
-                <td>{{$m->fullname}}</td>
-                <td>{{$m->NIM}}</td>
-                <td>{{$m->NIDN}}</td>
-                <td>{{$m->tempat_lahir}}, {{$m->tanggal_lahir}}</td>
-                <td>{{$m->alamat}}</td>
-                <td>{{$m->created_at}}</td>
+            <td>{{$d->id}}</td>
+            <td>{{$d->fullname}}</td>
+            <td>{{$d->NIP}}</td>
+            <td>{{$d->NIDN}}</td>
+            <td>{{$d->pendidikan_terakhir}}</td>
+            <td>{{$d->jurusan_id}}</td>
+            <td>{{$d->tempat_lahir}},{{$d->tanggal_lahir}}</td>
+            <td>{{$d->alamat}}</td>
+                <td>{{$d->created_at}}</td>
                 <td>
-                    <a href="{{ action([App\Http\Controllers\MahasiswaController::class, 'edit'], [$m->id]) }}">
+                    <a href="{{ action([App\Http\Controllers\DosenController::class, 'edit'], [$d->id]) }}">
                     <input type="button" class="btn btn-primary btn-lg" value="Edit">
                     </a>
-                    <form class="form" action="{{ action([App\Http\Controllers\MahasiswaController::class, 'destroy'], [$m->id]) }}" method="post">
+                    <form class="form" action="{{ action([App\Http\Controllers\DosenController::class, 'destroy'], [$d->id]) }}" method="post">
                     @csrf
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="submit" class="btn btn-secondary btn-lg" value="Delete">
@@ -59,3 +63,4 @@
     </table>
     
 </html>
+

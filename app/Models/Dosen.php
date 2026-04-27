@@ -2,9 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dosen extends Model
-{
-    protected $table = 'table_dosen';
+class Mahasiswa extends Model 
+{ 
+    use HasFactory;
+
+    protected $table = 'dosen';
+    
+    protected $fillable = [
+        'fullname',
+        'NIM',
+        'NIDN',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'alamat'
+    ];
 }

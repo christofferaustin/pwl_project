@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mata_Kuliah;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
-class MataKuliahController extends Controller
+class MatakuliahController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('Matakuliah.index', [
+            'mata_kuliah' => Matakuliah::all()
+        ]);
     }
 
     /**
@@ -20,7 +22,7 @@ class MataKuliahController extends Controller
      */
     public function create()
     {
-        //
+        return view('mata_kuliah.create');
     }
 
     /**
@@ -28,38 +30,50 @@ class MataKuliahController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token');
+
+        Matakuliah::create($data);
+
+        return redirect()->action([MatakuliahController::class, 'index']);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Mata_Kuliah $mata_Kuliah)
+    public function show($id)
     {
-        //
+        return Matakuliah::find($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Mata_Kuliah $mata_Kuliah)
+    public function edit($id)
     {
-        //
+        return view('mata_kuliah.edit', [
+            'mata_kuliah' => Matakuliah::find($id)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Mata_Kuliah $mata_Kuliah)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->except('_token');
+
+        Matakuliah::find($id)->update($data);
+
+        return redirect()->action([MatakuliahController::class, 'index']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Mata_Kuliah $mata_Kuliah)
+    public function destroy($id)
     {
-        //
+        Matakuliah::find($id)->delete();//
+
+        return redirect()->action([MatakuliahController::class, 'index']);
     }
 }

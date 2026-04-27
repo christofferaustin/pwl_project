@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
-class MahasiswaController extends Controller
+class MahasiswaController
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        return view('mahasiswa.create', []);
+        return view('mahasiswa.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except('_token', 'id', '_method');
+        $data = $request->except('_token');
 
         Mahasiswa::find($id)->update($data);
 
@@ -72,7 +72,8 @@ class MahasiswaController extends Controller
      */
     public function destroy($id)
     {
-         Mahasiswa::find($id)->delete();
-         return redirect()->action([MahasiswaController::clas,'index']);
+        Mahasiswa::find($id)->delete();//
+
+        return redirect()->action([MahasiswaController::class, 'index']);
     }
 }
