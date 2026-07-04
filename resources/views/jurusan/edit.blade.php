@@ -9,7 +9,7 @@
                 <td><input type="text" name="nama_jurusan" value="{{$jurusan->nama_jurusan}}" size="30"></td>
             </tr>
              <tr>
-                <td>Kode Jurusan</td>
+                <td>Nomor Induk Pengajar</td>
                 <td>:</td>
                 <td><input type="text" name="kode_jurusan" value="{{$jurusan->kode_jurusan}}" size="30"></td>
             </tr>

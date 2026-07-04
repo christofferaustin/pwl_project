@@ -3,35 +3,32 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-
-    <title>Mata Kuliah</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kelas</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
     <style>
-        body{
+        body {
             background-color: #f5f5f5;
         }
 
-        .table-container{
-            background-color: white;
+        .table-container {
+            background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
     </style>
-
 </head>
 
 <body>
 
     <!-- JUDUL -->
-    <h1 class="text-center mt-4">
-        Table Mata Kuliah
+    <h1 class="text-center mt-4 mb-4">
+        Tabel Kelas
     </h1>
 
     <!-- NAVBAR -->
@@ -40,13 +37,10 @@
         <div class="container-fluid">
 
             <!-- LOGO -->
-            <a class="navbar-brand"
-                href="{{ url('/') }}">
-
+            <a class="navbar-brand" href="{{ url('/') }}">
                 <img src="{{ asset('images/ITB-SS.jpg') }}"
-                    alt="gambar"
+                    alt="Logo"
                     width="50">
-
             </a>
 
             <!-- TOGGLER -->
@@ -59,7 +53,6 @@
                 aria-label="Toggle navigation">
 
                 <span class="navbar-toggler-icon"></span>
-
             </button>
 
             <!-- MENU -->
@@ -70,14 +63,10 @@
 
                     <!-- HOME -->
                     <li class="nav-item">
-
                         <a class="nav-link active"
                             href="{{ url('/') }}">
-
                             Home
-
                         </a>
-
                     </li>
 
                     <!-- DROPDOWN -->
@@ -90,7 +79,6 @@
                             aria-expanded="false">
 
                             Menu
-
                         </a>
 
                         <ul class="dropdown-menu">
@@ -98,42 +86,33 @@
                             <li>
                                 <a class="dropdown-item"
                                     href="{{ action([App\Http\Controllers\MahasiswaController::class, 'index']) }}">
-
                                     Mahasiswa
-
                                 </a>
                             </li>
 
                             <li>
                                 <a class="dropdown-item"
                                     href="{{ action([App\Http\Controllers\DosenController::class, 'index']) }}">
-
                                     Dosen
-
                                 </a>
                             </li>
 
                             <li>
                                 <a class="dropdown-item"
                                     href="{{ action([App\Http\Controllers\JurusanController::class, 'index']) }}">
-
                                     Jurusan
-
                                 </a>
                             </li>
 
                             <li>
                                 <a class="dropdown-item"
                                     href="{{ action([App\Http\Controllers\MatakuliahController::class, 'index']) }}">
-
                                     Mata Kuliah
-
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item"
                                     href="{{ action([App\Http\Controllers\KelasController::class, 'index']) }}">
-                                
                                     Kelas
                                 </a>
                             </li>
@@ -145,12 +124,12 @@
                 </ul>
 
                 <!-- SEARCH -->
-                <form class="d-flex"
-                    role="search">
+                <form class="d-flex" role="search">
 
                     <input class="form-control me-2"
                         type="search"
-                        placeholder="Search">
+                        placeholder="Search"
+                        aria-label="Search">
 
                     <button class="btn btn-outline-success"
                         type="submit">
@@ -173,75 +152,67 @@
         <div class="table-container">
 
             <!-- BUTTON CREATE -->
-            <a href="{{ action([App\Http\Controllers\MatakuliahController::class, 'create']) }}">
-
+            <a href="{{ action([App\Http\Controllers\KelasController::class, 'create']) }}">
                 <input type="button"
                     class="btn btn-primary btn-lg"
                     value="Create">
-
             </a>
 
             <br><br>
 
             <!-- TABLE -->
-            <div class="table-responsive"><table class="table table-white table-hover">
+            <div class="table-responsive"> <table class="table table-white table-hover">
 
                 <thead>
+            <tr>
+                <th>id</th>
+                <th>Kode Kelas</th>
+                <th>Nama Dosen</th>
+                <th>Nama Mata Kuliah</th>
+                <th>Ruang Kelas</th>
+                <th>Hari</th>
+                <th>Jam</th>
+                <th>Tahun Ajaran</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
 
-                    <tr>
-                        <th>No</th>
-                        <th>Jurusan ID</th>
-                        <th>Kode MK</th>
-                        <th>Nama MK</th>
-                        <th>SKS</th>
-                        <th>Dosen ID</th>
-                        <th>Tanggal Pembuatan</th>
-                        <th>Aksi</th>
-                    </tr>
+        <tbody>
 
-                </thead>
+            @foreach($kelas as $c)
 
-                <tbody>
+            <tr>
+                <td>{{ $c->id }}</td>
 
-                    @foreach ($mata_kuliah as $k)
+                <td>{{ $c->kode_kelas }}</td>
 
-                    <tr>
+                <td>{{ $c->dosen->Fullname }}</td>
 
-                        <td>{{ $k->id }}</td>
-                        <td>{{ $k->jurusan_id }}</td>
-                        <td>{{ $k->kode_mk }}</td>
-                        <td>{{ $k->nama_mk }}</td>
-                        <td>{{ $k->sks }}</td>
-                        <td>{{ $k->dosen_id }}</td>
-                        <td>{{ $k->created_at }}</td>
+                <td>{{ $c->mata_kuliah->Nama_Mata_Kuliah}}</td>
 
-                        <td>
+                <td>{{ $c->ruang_kelas }}</td>
 
-                            <!-- EDIT -->
-                            <a href="{{ action([App\Http\Controllers\MatakuliahController::class, 'edit'], [$k->id]) }}">
+                <td>{{ ucfirst($c->hari) }}</td>
 
-                                <input type="button"
-                                    class="btn btn-primary mb-2"
-                                    value="Edit">
+                <td>{{ $c->jam }}</td>
 
-                            </a>
+                <td>{{ $c->tahun_ajaran }}</td>
 
-                            <!-- DELETE -->
-                            <form action="{{ action([App\Http\Controllers\MatakuliahController::class, 'destroy'], [$k->id]) }}"
-                                method="post">
+                <td>
 
-                                @csrf
+                    <form action="{{ route('kelas.destroy', $c->id) }}"
+                          method="POST">
 
-                                <input type="hidden"
-                                    name="_method"
-                                    value="DELETE">
+                        @csrf
+                        @method('DELETE')
 
-                                <input type="submit"
-                                    class="btn btn-secondary"
-                                    value="Delete">
+                        <button type="submit"
+                                class="btn btn-danger btn-sm">
 
-                            </form>
+                            Hapus Kelas
+                        </button>
 
+                    </form>
                         </td>
 
                     </tr>
