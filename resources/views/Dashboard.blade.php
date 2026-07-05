@@ -213,6 +213,13 @@
                   <a class="dropdown-item" href="{{ route('login', ['redirect'=>url()->current()]) }}">Kelas (Login untuk akses)</a>
                 @endauth
               </li>
+              <li>
+                @auth
+                  <a class="dropdown-item" href="{{ action([App\Http\Controllers\KRSController::class,'index']) }}">KRS</a>
+                @else
+                  <a class="dropdown-item" href="{{ route('login', ['redirect'=>url()->current()]) }}">KRS (Login untuk akses)</a>
+                @endauth
+              </li>
             </ul>
           </div>
         </div>
@@ -370,7 +377,7 @@
 <footer>
   <div class="container text-center">
     <img src="{{ asset('images/Logo-ITBSS.png') }}" class="footer-logo" alt="ITBSS White Logo" onerror="this.onerror=null;this.src='{{ $svgPlaceholder }}'">
-    <p class="footer-text mt-3">Copyright © 2026 Institut Teknologi & Bisnis Sabda Setia</p>
+    <p class="footer-text mt-3">Copyright © 2026 Institut Teknologi & Bisnis Sabda Setia - Aprianto</p>
   </div>
 </footer>
 
