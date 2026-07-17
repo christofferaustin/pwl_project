@@ -3,74 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\Dosen;
+use App\Models\MataKuliah;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $kelas = Kelas::all();
-
-        return view('kelas.index', compact('kelas'));
+        return view('kelas.index', [
+            'kelas' => Kelas::with(['dosen', 'mataKuliah'])->get() // Gunakan eager loading agar nama dosen & matkul langsung terbaca
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        // contoh dummy dropdown
-        $mata_kuliah = [
-            1 => 'Bisnis Digital',
-            2 => 'Sistem Teknologi dan Informasi',
-            3 => 'Kewirausahaan'
-        ];
-
-        $dosen = [
-            1 => 'Kevin',
-            2 => 'Jonathan',
-            3 => 'Aprianto'
-        ];
-
-        return view('kelas.create', compact('mata_kuliah', 'dosen'));
+        return view('kelas.create', [
+            'dosen' => Dosen::get(),
+            'matakuliah' => MataKuliah::get(),
+            'hari' => Kelas::ListHari(),
+            'jam' => Kelas::ListJam(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'kode_kelas' => 'required',
-            'kode_mata_kuliah' => 'required',
-            'kode_dosen' => 'required',
-            'hari' => 'required',
-            'jam' => 'required',
-            'tahun_ajaran' => 'required',
-            'ruang_kelas' => 'required',
-            'jumlah_max' => 'required',
-            'semester' => 'required'
+            'kode_kelas'=>'required|unique:table_kelas,kode_kelas',
+            'kode_mata_kuliah'=>'required|exists:table_mata_kuliah,id',
+            'kode_dosen'=>'required|exists:table_dosen,id',
+            'hari'=>'required',
+            'jam'=>'required',
+            'tahun_ajaran'=>'required',
+            'ruang_kelas'=>'required',
+            'jumlah_max'=>'required|integer|min:1',
+            'semester'=>'required'
         ]);
 
-        Kelas::create($request->all());
+        $data = $request->except('_token');
+        Kelas::create($data);
 
-        return redirect('/kelas')
-            ->with('success', 'Data kelas berhasil ditambahkan');
+        return redirect()->route('kelas.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function show($id)
     {
-        $kelas = Kelas::findOrFail($id);
+        return view('kelas.show', [
+            'kelas' => Kelas::with(['dosen', 'mataKuliah'])->findOrFail($id)
+        ]);
+    }
 
-        $kelas->delete();
+    // Catatan: sesuai arahan dosen, Kelas tidak memiliki fitur edit/update.
 
-        return redirect('/kelas')
-            ->with('success', 'Data kelas berhasil dihapus');
+    public function destroy($id)
+    {
+        Kelas::findOrFail($id)->delete();
+        return redirect()->route('kelas.index');
     }
 }

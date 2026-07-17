@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use App\Models\Mahasiswa;
+use App\Models\User;
 
-class MahasiswaController
+class MahasiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +23,9 @@ class MahasiswaController
      */
     public function create()
     {
-        return view('mahasiswa.create');
+        return view('mahasiswa.create', [
+            'users' => $this->availableUsers(),
+        ]);
     }
 
     /**
@@ -30,11 +33,20 @@ class MahasiswaController
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
+        $request->validate([
+            'Fullname'=>'required|max:255',
+            'NIM'=>'required|unique:table_mahasiswa,NIM',
+            'Tempat_Lahir'=>'required',
+            'Tanggal_Lahir'=>'required|date',
+            'Alamat'=>'required',
+            'user_id'=>'nullable|exists:users,id|unique:table_mahasiswa,user_id',
+        ]);
 
-        Mahasiswa::create($data);
+        Mahasiswa::create($request->only([
+            'Fullname', 'NIM', 'Tempat_Lahir', 'Tanggal_Lahir', 'Alamat', 'user_id',
+        ]));
 
-        return redirect()->action([MahasiswaController::class, 'index']);
+        return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil ditambahkan.');
     }
 
     /**
@@ -42,16 +54,21 @@ class MahasiswaController
      */
     public function show($id)
     {
-        return Mahasiswa::find($id);
+        return view('mahasiswa.show', [
+            'mahasiswa' => Mahasiswa::with('user')->findOrFail($id)
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit ($id)
     {
+        $mahasiswa = Mahasiswa::findOrFail($id);
+
         return view('mahasiswa.edit', [
-            'mahasiswa' => Mahasiswa::find($id)
+            'mahasiswa' => $mahasiswa,
+            'users' => $this->availableUsers($mahasiswa->user_id),
         ]);
     }
 
@@ -60,11 +77,22 @@ class MahasiswaController
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except('_token');
+        $request->validate([
+            'Fullname'=>'required|max:255',
+            'NIM'=>"required|unique:table_mahasiswa,NIM,$id",
+            'Tempat_Lahir'=>'required',
+            'Tanggal_Lahir'=>'required',
+            'Alamat'=>'required',
+            'user_id'=>"nullable|exists:users,id|unique:table_mahasiswa,user_id,$id",
+        ]);
 
-        Mahasiswa::find($id)->update($data);
+        $data = $request->only([
+            'Fullname', 'NIM', 'Tempat_Lahir', 'Tanggal_Lahir', 'Alamat', 'user_id',
+        ]);
 
-        return redirect()->action([MahasiswaController::class, 'index']);
+        Mahasiswa::findOrFail($id)->update($data);
+
+        return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil diperbarui.');
     }
 
     /**
@@ -72,8 +100,24 @@ class MahasiswaController
      */
     public function destroy($id)
     {
-        Mahasiswa::find($id)->delete();//
+       Mahasiswa::findOrFail($id)->delete();
 
-        return redirect()->action([MahasiswaController::class, 'index']);
+        return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil dihapus.');
+    }
+
+    /**
+     * Akun bikin role "mahasiswa" yang belum ditautkan ke data Mahasiswa manapun
+     * (atau sedang ditautkan ke $currentUserId, supaya tetap muncul saat edit).
+     */
+    private function availableUsers($currentUserId = null)
+    {
+        return User::where('role', 'mahasiswa')
+            ->where(function ($q) use ($currentUserId) {
+                $q->whereDoesntHave('mahasiswa');
+                if ($currentUserId) {
+                    $q->orWhere('id', $currentUserId);
+                }
+            })
+            ->get();
     }
 }

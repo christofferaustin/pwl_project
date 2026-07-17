@@ -1,342 +1,397 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+    <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SIAKAD - Edit Mahasiswa</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Mahasiswa - SIAKAD ITBSS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        /* Mengunci background gradasi biru malam sinematik agar sinkron */
-        html, body {
-            height: 100%;
-            margin: 0;
+        html,
+        body{
+            height:100%;
+            margin:0;
         }
 
-        body {
-            background: linear-gradient(180deg, #0f3156 0%, #0b223f 40%, #07172b 70%, #040d1a 100%);
-            display: flex;
-            flex-direction: column;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        body{
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            padding-top:90px;
         }
 
-        /* Pembungkus konten utama agar mendorong footer pintar tetap di bawah */
-        .content-grow {
-            flex: 1 0 auto;
+        main{
+            flex:1 0 auto;
         }
 
-        /* --- STYLING NAVBAR PREMIUM (SINKRON) --- */
-        .navbar {
-            background: rgba(11, 34, 63, 0.4) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px 0;
+        footer{
+            margin-top:auto;
         }
 
-        .logo-wrapper {
-            width: 45px;
-            height: 45px;
-            background: #ffffff; 
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            overflow: hidden;
+        body{
+            background:#f5f7fb;
         }
 
-        .logo-wrapper img {
-            width: 85%;
-            height: 85%;
-            object-fit: contain;
+        .page-card{
+            background:#fff;
+            border-radius:18px;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
+            overflow:hidden;
         }
 
-        .brand-text {
-            font-weight: 700;
-            font-size: 1.15rem;
-            letter-spacing: 0.5px;
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        .page-header{
+            padding:25px 30px;
+            border-bottom:1px solid #ececec;
         }
 
-        /* Memperbesar ukuran teks menu navigasi utama */
-        .nav-link-custom {
-            color: rgba(255, 255, 255, 0.85) !important;
-            font-weight: 600;
-            font-size: 1.05rem; /* Ukuran diperbesar sedikit */
-            transition: all 0.3s;
+        .page-title{
+            font-size:30px;
+            font-weight:700;
+            color:#1f2937;
         }
 
-        .nav-link-custom:hover, .nav-link-custom.active {
-            color: #90caf9 !important;
-            text-shadow: 0 0 8px rgba(144, 202, 249, 0.4);
+        .page-subtitle{
+            color:#6b7280;
+            margin-bottom:0;
         }
 
-        /* Styling khusus Kembali ke Tabel agar teksnya kontras dan sedikit lebih besar */
-        .nav-link-back {
-            color: #90caf9 !important;
-            font-weight: 600;
-            font-size: 1.05rem; /* Ukuran diperbesar sedikit */
-            transition: all 0.3s;
-        }
-        
-        .nav-link-back:hover {
-            color: #ffffff !important;
-            text-shadow: 0 0 10px rgba(144, 202, 249, 0.6);
+        .page-body{
+            padding:30px;
         }
 
-        /* Menu SIAKAD di ujung kanan tetap proporsional */
-        .nav-link-siakad {
-            color: rgba(255, 255, 255, 0.8) !important;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s;
+        .form-label{
+            font-weight:600;
+            color:#374151;
         }
 
-        .dropdown-menu {
-            background: rgba(16, 28, 54, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+        .form-control,
+        .form-select{
+            border-radius:10px;
+            padding:11px 14px;
+            border:1px solid #d1d5db;
         }
 
-        .dropdown-item {
-            color: rgba(255, 255, 255, 0.8);
+        .form-control:focus{
+            box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
+            border-color:#2563eb;
         }
 
-        .dropdown-item:hover {
-            background: rgba(144, 202, 249, 0.15);
-            color: #90caf9;
+        .btn-save{
+            background:#2563eb;
+            color:white;
+            border:none;
+            border-radius:10px;
+            padding:10px 25px;
         }
 
-        /* --- STYLING GLASSMORPHISM FORM CARD --- */
-        .form-card {
-            background: rgba(16, 28, 54, 0.55);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        .btn-save:hover{
+            background:#1d4ed8;
+            color:white;
         }
 
-        .main-title {
-            font-weight: 800;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .form-label {
-            font-weight: 500;
-            color: #e5efff;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff !important;
-            border-radius: 30px; 
-            padding: 11px 22px;
-            font-size: 0.95rem;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #90caf9;
-            box-shadow: 0 0 0 0.25rem rgba(144, 202, 249, 0.3);
-        }
-
-        textarea.form-control {
-            border-radius: 18px;
-        }
-
-        .btn-update {
-            background: linear-gradient(90deg, #1e5bb0 0%, #0f3069 100%);
-            color: white;
-            font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 30px;
-            padding: 12px 30px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(15, 48, 105, 0.4);
-        }
-
-        .btn-update:hover {
-            background: linear-gradient(90deg, #266ecf 0%, #153f85 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(38, 110, 207, 0.5);
-            color: white;
-        }
-
-        .btn-clear {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e5efff;
-            font-weight: 600;
-            border-radius: 30px;
-            padding: 12px 30px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-clear:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-
-        /* --- STICKY FOOTER --- */
-        footer {
-            flex-shrink: 0;
-            background: rgba(4, 13, 26, 0.95);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: #94a3b8;
-            padding: 15px 0;
-            width: 100%;
-        }
-
-        .footer-logo-container {
-            display: flex;
-            align-items: center;
-            height: 35px;
-        }
-
-        .footer-logo-container img {
-            height: 100%;
-            width: auto;
-            filter: brightness(0) invert(1);
+        .btn-cancel{
+            border-radius:10px;
+            padding:10px 25px;
         }
     </style>
 </head>
 
-<body>
-
-    <div class="content-grow">
-
-        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-            <div class="container">
-                
-                <a class="navbar-brand d-flex align-items-center gap-3" href="/">
-                    <div class="logo-wrapper">
-                        <img src="{{ asset('images/ITB-SS.jpg') }}" alt="Logo ITBSS">
-                    </div>
-                    <span class="brand-text">Institut Teknologi & Bisnis Sabda Setia</span>
-                </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 flex-grow-1 d-flex justify-content-center">
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom" href="/" style="font-size: 1.15rem; font-weight: 600;">Home</a>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-4">
-                        
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-back" href="{{ action([App\Http\Controllers\MahasiswaController::class, 'index']) }}" style="font-size: 1.05rem; font-weight: 600;">
-                                ← Kembali ke Tabel
-                            </a>
-                        </li>
-                        
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle nav-link-siakad active" href="#" role="button" data-bs-toggle="dropdown" style="font-size: 0.95rem; font-weight: 500;">
-                                Menu SIAKAD
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\DosenController::class, 'index']) }}">Dosen</a></li>
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\JurusanController::class, 'index']) }}">Jurusan</a></li>
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MatakuliahController::class, 'index']) }}">Mata Kuliah</a></li>
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\KelasController::class, 'index']) }}">Kelas</a></li>
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\KRSController::class, 'index']) }}">KRS</a></li>
-                            </ul>
-                        </li>
-
-                    </ul>
-
-                </div>
-            </div>
-        </nav>
-
-        <div class="container my-5" style="max-width: 800px;">
+<body class="d-flex flex-column h-100">
+<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm fixed-top py-2">
+    <div class="container-fluid px-md-5"> <!-- Menggunakan container-fluid agar benar-benar mentok ke ujung layar dengan padding horizontal aman -->
+        
+        <!-- BRAND LOGO (Paling Kiri) -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <img src="{{ asset('img/download (4).png') }}" alt="Logo Itbss" width="50" height="auto">
+        </a>
+        
+        <!-- Toggler untuk Mobile View -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- KONTEN NAVBAR -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             
-            <div class="mb-4 text-center text-md-start">
-                <h1 class="main-title mb-1">Edit Data Mahasiswa</h1>
-                <p class="text-white-50 mb-0">Perbarui informasi mahasiswa di bawah ini.</p>
-            </div>
+            <!-- Pembungkus internal untuk membagi kiri & kanan secara ekstrem -->
+            <div class="d-md-flex justify-content-between align-items-center w-100">
+                
+                <!-- MENU AKADEMIK (Mentok Kiri setelah Logo) -->
+                <ul class="navbar-nav mb-2 mb-lg-0 fs-6 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-semibold" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Menu Academic
+                        </a>
+                        <ul class="dropdown-menu shadow-sm border-0">
 
-            <div class="form-card">
-                <form action="{{ action([App\Http\Controllers\MahasiswaController::class, 'update'], [$mahasiswa->id]) }}" method="post">
-                    @csrf
-                    <input type="hidden" name="_method" value="PUT">
+                            @auth
 
-                    <div class="row">
-                        <div class="col-md-12 mb-4">
-                            <label class="form-label">Nama Lengkap</label>
-                            <input type="text" name="fullname" class="form-control" placeholder="Masukkan nama lengkap" value="{{$mahasiswa->fullname}}" required>
-                        </div>
+                                @if(Auth::user()->role == 'admin')
 
-                        <div class="col-md-6 mb-4">
-                            <label class="form-label">Nomor Induk Mahasiswa (NIM)</label>
-                            <input type="text" name="NIM" class="form-control" placeholder="Masukkan NIM" value="{{$mahasiswa->NIM}}" required>
-                        </div>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.index') }}">Dosen</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('mahasiswa.index') }}">Mahasiswa</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('kelas.index') }}">Kelas</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('jurusan.index') }}">Jurusan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('matakuliah.index') }}">Mata Kuliah</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.krs.index') }}">KRS</a></li>
 
-                        <div class="col-md-6 mb-4">
-                            <label class="form-label">Nomor Induk Siswa Nasional (NISN)</label>
-                            <input type="text" name="NISN" class="form-control" placeholder="Masukkan NISN" value="{{$mahasiswa->NISN}}">
-                        </div>
+                                @elseif(Auth::user()->role == 'mahasiswa')
 
-                        <div class="col-md-6 mb-4">
-                            <label class="form-label">Tempat Lahir</label>
-                            <input type="text" name="tempat_lahir" class="form-control" placeholder="Masukkan kota lahir" value="{{$mahasiswa->tempat_lahir}}" required>
-                        </div>
+                                    <li><a class="dropdown-item" href="{{ route('krs.index') }}">KRS</a></li>
 
-                        <div class="col-md-6 mb-4">
-                            <label class="form-label">Tanggal Lahir</label>
-                            <input type="date" name="tanggal_lahir" class="form-control" value="{{$mahasiswa->tanggal_lahir}}" required>
-                        </div>
+                                @elseif(Auth::user()->role == 'dosen')
 
-                        <div class="col-md-12 mb-4">
-                            <label class="form-label">Alamat Rumah</label>
-                            <textarea name="alamat" rows="4" class="form-control" placeholder="Tuliskan alamat lengkap tempat tinggal saat ini" required>{{$mahasiswa->alamat}}</textarea>
-                        </div>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.mahasiswa.index') }}">Mahasiswa</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.dosen.index') }}">Dosen</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.kelas.index') }}">Kelas</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.jurusan.index') }}">Jurusan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.matakuliah.index') }}">Mata Kuliah</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.krs.index') }}">KRS Mahasiswa</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('krsdetail.index') }}">Approval Mata Kuliah</a></li>
+
+                                @endif
+
+                            @endauth
+
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- BAGIAN AUTENTIKASI (Mentok Kanan) -->
+                <div class="d-flex align-items-center mt-2 mt-lg-0">
+                    @guest
+                    <div class="d-flex gap-2 w-100 justify-content-center">
+                        <a class="btn btn-primary rounded-3 px-4" href="{{ action([App\Http\Controllers\AuthController::class, 'loginView']) }}">
+                            Login
+                        </a>
+                        <a class="btn btn-outline-primary rounded-3 px-4" href="{{ action([App\Http\Controllers\AuthController::class, 'registerView']) }}">
+                            Register
+                        </a>
                     </div>
+                    @endguest
 
-                    <div class="d-flex justify-content-end gap-3 border-top border-white border-opacity-10 pt-4 mt-2">
-                        <button type="reset" class="btn btn-clear">
-                            Clear
-                        </button>
-                        <button type="submit" class="btn btn-update">
-                            Update
-                        </button>
+                    @auth
+                    <div class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2 fw-semibold" data-bs-toggle="dropdown">
+                            <img src="{{ asset('img/user.png') }}" width="32" height="32" class="rounded-circle border">
+                            {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                            <li><a href="" class="dropdown-item">👤 Profile Akun</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">🚪 Logout</button>
+                                </form>
+                            </li>
+                        </ul>
                     </div>
+                    @endauth
+                </div>
 
-                </form>
-            </div>
-
+            </div> <!-- /d-md-flex -->
+            
         </div>
     </div>
+</nav>
 
-    <footer>
-        <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center">
-            <div class="footer-logo-container mb-2 mb-sm-0">
-                <img src="{{ asset('images/Logo-ITBSS.png') }}" alt="Logo ITBSS Footer">
+<main>
+
+    <div class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="card border-0 shadow rounded-4">
+
+                    <!-- Header -->
+                    <div class="card-header bg-white py-4 border-bottom">
+
+                        <h3 class="fw-bold mb-1">
+                            Edit Data Mahasiswa
+                        </h3>
+
+                        <small class="text-muted">
+                            Perbarui informasi mahasiswa.
+                        </small>
+
+                    </div>
+
+                    <!-- Body -->
+                    <div class="card-body p-4">
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <strong>Terjadi kesalahan, mohon periksa kembali isian Anda:</strong>
+                                <ul class="mb-0 mt-2">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+
+                        <form action="{{ action([App\Http\Controllers\MahasiswaController::class,'update'],[$mahasiswa->id]) }}"
+                              method="POST">
+
+                            @csrf
+                            @method('PUT')
+
+                            <div class="row">
+
+                                <!-- Nama -->
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label fw-semibold">
+                                        Nama Lengkap
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="Fullname"
+                                        value="{{ $mahasiswa->Fullname }}"
+                                        placeholder="Masukkan nama lengkap"
+                                        required>
+
+                                </div>
+
+                                <!-- NIM -->
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label fw-semibold">
+                                        Nomor Induk Mahasiswa (NIM)
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="NIM"
+                                        value="{{ $mahasiswa->NIM }}"
+                                        placeholder="Masukkan NIM"
+                                        required>
+
+                                </div>
+
+                                <!-- Tempat Lahir -->
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label fw-semibold">
+                                        Tempat Lahir
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="Tempat_Lahir"
+                                        value="{{ $mahasiswa->Tempat_Lahir }}"
+                                        placeholder="Contoh : Pontianak">
+
+                                </div>
+
+                                <!-- Tanggal Lahir -->
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label fw-semibold">
+                                        Tanggal Lahir
+                                    </label>
+
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        name="Tanggal_Lahir"
+                                        value="{{ $mahasiswa->Tanggal_Lahir }}">
+
+                                </div>
+
+                                <!-- Alamat -->
+                                <div class="col-md-12 mb-3">
+
+                                    <label class="form-label fw-semibold">
+                                        Alamat
+                                    </label>
+
+                                    <textarea
+                                        class="form-control"
+                                        rows="4"
+                                        name="Alamat"
+                                        placeholder="Masukkan alamat lengkap">{{ $mahasiswa->Alamat }}</textarea>
+
+                                </div>
+
+                                <!-- Tautkan Akun -->
+                                <div class="col-md-12 mb-4">
+
+                                    <label class="form-label fw-semibold">
+                                        Tautkan ke Akun Login (opsional)
+                                    </label>
+
+                                    <select name="user_id" class="form-select">
+                                        <option value="">-- Belum ditautkan --</option>
+                                        @foreach($users as $u)
+                                            <option value="{{ $u->id }}" {{ $mahasiswa->user_id == $u->id ? 'selected' : '' }}>
+                                                {{ $u->name }} ({{ $u->email }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    <small class="text-muted">
+                                        Pilih akun login mahasiswa ini supaya dia bisa mengakses KRS miliknya sendiri.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-end gap-2">
+
+                                <a href="{{ action([App\Http\Controllers\MahasiswaController::class,'index']) }}"
+                                   class="btn btn-outline-secondary">
+
+                                    Kembali
+
+                                </a>
+
+                                <button type="reset"
+                                        class="btn btn-warning text-white">
+
+                                    Reset
+
+                                </button>
+
+                                <button type="submit"
+                                        class="btn btn-primary">
+
+                                    Simpan Perubahan
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
             </div>
-            <p class="mb-0 small text-white-50">
-                Copyright © 2026 Institut Teknologi & Bisnis Sabda Setia. All rights reserved - Aprianto.
-            </p>
-        </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+
+    </div>
+
+</main>
+
+@include('footer')
 
 </body>
 </html>

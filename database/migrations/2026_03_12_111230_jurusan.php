@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('role', 100)->default('guest')->after('remember_token');
+        Schema::create('table_jurusan', function (Blueprint $table) {
+            $table->id();
+            $table->string('Kode_Jurusan')->unique();
+            $table->string('Nama_Jurusan');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
-        });
+        Schema::dropIfExists('table_jurusan');
     }
 };

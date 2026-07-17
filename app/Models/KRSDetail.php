@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 
 class KRSDetail extends Model
@@ -14,11 +13,13 @@ class KRSDetail extends Model
         'status'
     ];
 
-    public function kelas() {
-        return $this->hasOne(Kelas::class, 'id', 'kelas_id');
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class,'kelas_id');
     }
 
-    public function krs() {
-        return $this->hasOne(KRS::class, 'id', 'krs_id');
+    public function krs()
+    {
+        return $this->belongsTo(KRS::class,'krs_id');
     }
 }

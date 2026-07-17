@@ -16,8 +16,9 @@ class KRS extends Model
         'total_sks'
     ];
 
-    public function mahasiswa() {
-        return $this->hasOne(Mahasiswa::class, 'id', 'kode_mahasiswa');
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class,'kode_mahasiswa');
     }
 
     public function detail() {

@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Matakuliah;
 use Illuminate\Http\Request;
+use App\Models\MataKuliah;
+use App\Models\Jurusan;
+use App\Models\Dosen;
 
-class MatakuliahController extends Controller
+class MataKuliahController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('Matakuliah.index', [
-            'mata_kuliah' => Matakuliah::all()
+        //return Mahasiswa::all();\
+        return view('matakuliah.index', [
+            'matakuliah' => MataKuliah::with(['jurusan', 'dosen'])->get()
         ]);
     }
 
@@ -22,7 +25,10 @@ class MatakuliahController extends Controller
      */
     public function create()
     {
-        return view('matakuliah.create');
+        return view('matakuliah.create', [
+            'jurusan' => Jurusan::all(),
+            'dosen' => Dosen::all(),
+        ]);
     }
 
     /**
@@ -30,11 +36,17 @@ class MatakuliahController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
+        $request->validate([
+            'Jurusan_Id' => 'required|exists:table_jurusan,id',
+            'Kode_Mata_Kuliah' => 'required|max:20|unique:table_mata_kuliah,Kode_Mata_Kuliah',
+            'Nama_Mata_Kuliah' => 'required|max:255',
+            'SKS' => 'required|integer|min:1|max:6',
+            'Dosen_Id' => 'required|exists:table_dosen,id',
+        ]);
 
-        Matakuliah::create($data);
+        MataKuliah::create($request->all());
 
-        return redirect()->action([MatakuliahController::class, 'index']);
+        return redirect()->route('matakuliah.index');
     }
 
     /**
@@ -42,16 +54,20 @@ class MatakuliahController extends Controller
      */
     public function show($id)
     {
-        return Matakuliah::find($id);
+        return view('matakuliah.show', [
+        'matakuliah' => MataKuliah::findOrFail($id)
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit ($id)
     {
-        return view('Matakuliah.edit', [
-            'mata_kuliah' => Matakuliah::find($id)
+        return view('matakuliah.edit', [
+            'matakuliah' => MataKuliah::findOrFail($id),
+            'jurusan' => Jurusan::all(),
+            'dosen' => Dosen::all(),
         ]);
     }
 
@@ -60,20 +76,26 @@ class MatakuliahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except('_token');
+        $request->validate([
+            'Jurusan_Id' => 'required|exists:table_jurusan,id',
+            'Kode_Mata_Kuliah' => "required|max:20|unique:table_mata_kuliah,Kode_Mata_Kuliah,$id",
+            'Nama_Mata_Kuliah' => 'required|max:255',
+            'SKS' => 'required|integer|min:1|max:6',
+            'Dosen_Id' => 'required|exists:table_dosen,id',
+        ]);
 
-        Matakuliah::find($id)->update($data);
+        MataKuliah::findOrFail($id)->update($request->all());
 
-        return redirect()->action([MatakuliahController::class, 'index']);
+        return redirect()->route('matakuliah.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        Matakuliah::find($id)->delete();//
+        MataKuliah::findOrFail($id)->delete();
 
-        return redirect()->action([MatakuliahController::class, 'index']);
+        return redirect()->route('matakuliah.index');
     }
 }

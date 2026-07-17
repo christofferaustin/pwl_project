@@ -2,23 +2,41 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dosen extends Model 
-{ 
-    use HasFactory;
+class Dosen extends Model
+{
+       protected $table = 'table_dosen';
 
-    protected $table = 'dosen';
-    
-    protected $fillable = [
-        'fullname',
-        'NIP',
-        'NIDN',
-        'pendidikan_terakhir',
-        'jurusan_id',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'alamat'
-    ];
+       protected $fillable = [
+              'user_id',
+              'Fullname',
+              'NIP',
+              'NIDN',
+              'Pendidikan_Terakhir',
+              'Jurusan_id',
+              'Tempat_Lahir',
+              'Tanggal_Lahir',
+              'Alamat'
+       ];
+
+       public function user()
+       {
+              return $this->belongsTo(User::class, 'user_id');
+       }
+
+       public function jurusan()
+       {
+              return $this->belongsTo(Jurusan::class, 'Jurusan_id');
+       }
+
+       public function kelas()
+       {
+              return $this->hasMany(Kelas::class, 'kode_dosen', 'id');
+       }
+
+       public function mataKuliah()
+       {
+              return $this->hasMany(MataKuliah::class, 'Dosen_Id', 'id');
+       }
 }

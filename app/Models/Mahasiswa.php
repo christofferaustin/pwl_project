@@ -2,21 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mahasiswa extends Model 
-{ 
-    use HasFactory;
+class Mahasiswa extends Model
+{
+    protected $table = 'table_mahasiswa';
 
-    protected $table = 'mahasiswa';
-    
     protected $fillable = [
-        'fullname',
+        'user_id',
+        'Fullname',
         'NIM',
-        'NISN',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'alamat'
+        'Tempat_Lahir',
+        'Tanggal_Lahir',
+        'Alamat'
     ];
+
+    public function krs()
+    {
+        return $this->hasMany(KRS::class,'kode_mahasiswa','id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

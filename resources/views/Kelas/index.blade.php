@@ -1,374 +1,363 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SIAKAD - Data Kelas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kelas - SIAKAD ITBSS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        /* --- BACKGROUND GRADASI WARNA VOLKANIK SESUAI HALAMAN CREATE KELAS --- */
-        html, body {
-            height: 100%;
-            margin: 0;
+        html,
+        body{
+            height:100%;
+            margin:0;
         }
 
-        body {
-            /* Menggunakan racikan gradasi murni tanpa animasi pudar agar warnanya tetap stand out */
-            background: linear-gradient(135deg, #3a0303 0%, #b21f1f 25%, #f15b22 65%, #fbb03b 100%);
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            position: relative;
-            overflow-x: hidden;
+        body{
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            padding-top:90px;
         }
 
-        /* Pembungkus utama pendorong footer */
-        .content-grow {
-            flex: 1 0 auto;
-            position: relative;
-            z-index: 2;
+        main{
+            flex:1 0 auto;
         }
 
-        /* --- NAVBAR GLASSMORPHISM MENYESUAIKAN TEMA COAL & FIRE --- */
-        .navbar {
-            background: rgba(26, 5, 0, 0.4) !important;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 12px 0;
+        footer{
+            margin-top:auto;
         }
 
-        .logo-wrapper {
-            width: 45px;
-            height: 45px;
-            background: #ffffff; 
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            overflow: hidden;
+        body{
+            background:#f5f7fb;
         }
 
-        .logo-wrapper img {
-            width: 85%;
-            height: 85%;
-            object-fit: contain;
+        .page-card{
+            background:#fff;
+            border-radius:18px;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
+            overflow:hidden;
         }
 
-        .brand-text {
-            font-weight: 700;
-            font-size: 1.15rem;
-            letter-spacing: 0.5px;
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        .page-header{
+            padding:25px 30px;
+            border-bottom:1px solid #ececec;
         }
 
-        .nav-link {
-            color: rgba(255, 255, 255, 0.9) !important;
-            font-weight: 500;
-            transition: all 0.3s;
+        .page-title{
+            font-size:30px;
+            font-weight:700;
+            color:#1f2937;
         }
 
-        .nav-link:hover, .nav-link.active {
-            color: #fbb03b !important; /* Sorotan Kuning Emas Cerah */
+        .page-subtitle{
+            color:#6b7280;
+            margin-bottom:0;
         }
 
-        .dropdown-menu {
-            background: rgba(41, 10, 5, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+        .page-body{
+            padding:30px;
         }
 
-        .dropdown-item {
-            color: rgba(255, 255, 255, 0.9);
+        .form-label{
+            font-weight:600;
+            color:#374151;
         }
 
-        .dropdown-item:hover {
-            background: rgba(241, 91, 34, 0.3);
-            color: #ffffff;
+        .form-control,
+        .form-select{
+            border-radius:10px;
+            padding:11px 14px;
+            border:1px solid #d1d5db;
         }
 
-        /* Search Control Bar */
-        .navbar .search-control {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            border-radius: 28px;
-            padding: 8px 14px;
-            width: 100%;
-            max-width: 380px;
+        .form-control:focus{
+            box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
+            border-color:#2563eb;
         }
 
-        .navbar .search-control::placeholder {
-            color: #ffffff !important; /* Diubah menjadi putih pekat */
+        .btn-save{
+            background:#2563eb;
+            color:white;
+            border:none;
+            border-radius:10px;
+            padding:10px 25px;
         }
 
-        .btn-search {
-            border-radius: 28px;
-            padding: 7px 14px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #ffffff;
-            background: transparent;
+        .btn-save:hover{
+            background:#1d4ed8;
+            color:white;
         }
 
-        .btn-search:hover {
-            background: #ffffff;
-            color: #f15b22;
-        }
-
-        /* --- BUTTON CREATE --- */
-        .btn-create {
-            background: linear-gradient(90deg, #fbb03b, #f15b22);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            font-weight: 600;
-            border-radius: 30px;
-            padding: 8px 18px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .btn-create:hover { 
-            transform: translateY(-2px); 
-            color: #ffffff;
-            box-shadow: 0 4px 15px rgba(241, 91, 34, 0.5);
-        }
-
-        /* --- TABLE RESPONSIVE WRAPPER (DARK GLASSMORPHISM) --- */
-        .main-title {
-            font-weight: 800;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .table-responsive-wrapper {
-            background: rgba(255, 255, 255, 0.08); /* Sedikit disesuaikan dengan form create */
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .table {
-            color: #ffffff !important; 
-        }
-
-        .table thead th {
-            color: #ffffff;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-            background-color: transparent;
-            padding: 14px;
-        }
-
-        .table tbody td {
-            vertical-align: middle;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ffffff !important;
-            background-color: transparent;
-            padding: 14px;
-        }
-        
-        .table-hover tbody tr:hover td {
-            color: #ffffff !important;
-            background-color: rgba(255, 255, 255, 0.08) !important;
-        }
-
-        /* Custom Badge Komponen (Kuning Terang) */
-        .badge-custom {
-            background: rgba(253, 203, 110, 0.2);
-            border: 1px solid rgba(253, 203, 110, 0.5);
-            color: #ffeaa7;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        /* Badge Ruangan (Oranye Hangat) */
-        .badge-room {
-            background: rgba(241, 91, 34, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #ffffff;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        /* Tombol Aksi Hapus */
-        .btn-table-delete {
-            background: rgba(255, 76, 76, 0.25);
-            border: 1px solid rgba(255, 76, 76, 0.5);
-            color: #ffcccc;
-            border-radius: 20px;
-            padding: 5px 15px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .btn-table-delete:hover {
-            background: #ff4c4c;
-            color: #ffffff;
-            border-color: #ff4c4c;
-            box-shadow: 0 4px 12px rgba(255, 76, 76, 0.4);
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            flex-shrink: 0;
-            background: rgba(26, 5, 0, 0.85);
-            backdrop-filter: blur(5px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-            padding: 15px 0;
-            width: 100%;
-        }
-
-        .footer-logo-container {
-            display: flex;
-            align-items: center;
-            height: 35px;
-        }
-
-        .footer-logo-container img {
-            height: 100%;
-            width: auto;
-            filter: brightness(0) invert(1);
+        .btn-cancel{
+            border-radius:10px;
+            padding:10px 25px;
         }
     </style>
 </head>
 
-<body>
-
-    <div class="content-grow">
+<body class="d-flex flex-column h-100">
+<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm fixed-top py-2">
+    <div class="container-fluid px-md-5"> <!-- Menggunakan container-fluid agar benar-benar mentok ke ujung layar dengan padding horizontal aman -->
         
-        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center gap-3" href="/">
-                    <div class="logo-wrapper">
-                        <img src="{{ asset('images/ITB-SS.jpg') }}" alt="Logo ITBSS" />
+        <!-- BRAND LOGO (Paling Kiri) -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <img src="{{ asset('img/download (4).png') }}" alt="Logo Itbss" width="50" height="auto">
+        </a>
+        
+        <!-- Toggler untuk Mobile View -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- KONTEN NAVBAR -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            
+            <!-- Pembungkus internal untuk membagi kiri & kanan secara ekstrem -->
+            <div class="d-md-flex justify-content-between align-items-center w-100">
+                
+                <!-- MENU AKADEMIK (Mentok Kiri setelah Logo) -->
+                <ul class="navbar-nav mb-2 mb-lg-0 fs-6 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-semibold" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Menu Academic
+                        </a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+
+                            @auth
+
+                                @if(Auth::user()->role == 'admin')
+
+                                    <li><a class="dropdown-item" href="{{ route('dosen.index') }}">Dosen</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('mahasiswa.index') }}">Mahasiswa</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('kelas.index') }}">Kelas</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('jurusan.index') }}">Jurusan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('matakuliah.index') }}">Mata Kuliah</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.krs.index') }}">KRS</a></li>
+
+                                @elseif(Auth::user()->role == 'mahasiswa')
+
+                                    <li><a class="dropdown-item" href="{{ route('krs.index') }}">KRS</a></li>
+
+                                @elseif(Auth::user()->role == 'dosen')
+
+                                    <li><a class="dropdown-item" href="{{ route('dosen.mahasiswa.index') }}">Mahasiswa</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.dosen.index') }}">Dosen</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.kelas.index') }}">Kelas</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.jurusan.index') }}">Jurusan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.matakuliah.index') }}">Mata Kuliah</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dosen.krs.index') }}">KRS Mahasiswa</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('krsdetail.index') }}">Approval Mata Kuliah</a></li>
+
+                                @endif
+
+                            @endauth
+
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- BAGIAN AUTENTIKASI (Mentok Kanan) -->
+                <div class="d-flex align-items-center mt-2 mt-lg-0">
+                    @guest
+                    <div class="d-flex gap-2 w-100 justify-content-center">
+                        <a class="btn btn-primary rounded-3 px-4" href="{{ action([App\Http\Controllers\AuthController::class, 'loginView']) }}">
+                            Login
+                        </a>
+                        <a class="btn btn-outline-primary rounded-3 px-4" href="{{ action([App\Http\Controllers\AuthController::class, 'registerView']) }}">
+                            Register
+                        </a>
                     </div>
-                    <span class="brand-text">Institut Teknologi & Bisnis Sabda Setia</span>
-                </a>
+                    @endguest
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="mainNavbar">
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/">Home</a>
-                        </li>
-                    </ul>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <form class="d-flex" role="search" action="#" method="get">
-                            <input class="form-control search-control" name="q" type="search" placeholder="Cari kelas aktif..." aria-label="Search" />
-                            <button class="btn btn-search ms-2" type="submit">Search</button>
-                        </form>
-
-                        <div style="width: 1px; height: 25px; background: rgba(255,255,255,0.25);"></div>
-
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="siakadMenu" role="button" data-bs-toggle="dropdown">
-                                Menu SIAKAD
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="siakadMenu">
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MahasiswaController::class, 'index']) }}">Mahasiswa</a></li>
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\DosenController::class, 'index']) }}">Dosen</a></li>
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\JurusanController::class, 'index']) }}">Jurusan</a></li>
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\MatakuliahController::class, 'index']) }}">Mata Kuliah</a></li>
-                                <li><a class="dropdown-item" href="{{ action([App\Http\Controllers\KRSController::class, 'index']) }}">KRS</a></li>
-                            </ul>
-                        </div>
+                    @auth
+                    <div class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2 fw-semibold" data-bs-toggle="dropdown">
+                            <img src="{{ asset('img/user.png') }}" width="32" height="32" class="rounded-circle border">
+                            {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                            <li><a href="" class="dropdown-item">👤 Profile Akun</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">🚪 Logout</button>
+                                </form>
+                            </li>
+                        </ul>
                     </div>
+                    @endauth
                 </div>
-            </div>
-        </nav>
 
-        <div class="container my-5">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-                <div>
-                    <h1 class="main-title mb-1">Tabel Kelas</h1>
-                    <p class="text-white mb-0">Kelola jadwal perkuliahan, alokasi ruangan, dan tahun ajaran aktif.</p>
-                </div>
-                <div>
-                    <a href="{{ action([App\Http\Controllers\KelasController::class, 'create']) }}" class="btn btn-create btn-lg">
-                        + Tambah Kelas
-                    </a>
-                </div>
-            </div>
-
-            <div class="table-responsive-wrapper">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th width="5%">ID</th>
-                                <th width="12%">Kode Kelas</th>
-                                <th width="18%">Nama Dosen</th>
-                                <th width="20%">Nama Mata Kuliah</th>
-                                <th width="12%">Ruang Kelas</th>
-                                <th width="10%">Hari</th>
-                                <th width="10%">Jam</th>
-                                <th width="13%">Tahun Ajaran</th>
-                                <th width="10%" class="text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($kelas as $c)
-                            <tr>
-                                <td class="fw-bold text-white">{{ $c->id }}</td>
-                                <td><span class="badge-custom">{{ $c->kode_kelas }}</span></td>
-                                <td class="fw-semibold text-white">{{ $c->dosen->Fullname }}</td>
-                                <td style="color: #ffeaa7 !important;" class="fw-bold">{{ $c->mata_kuliah->Nama_Mata_Kuliah }}</td>
-                                <td><span class="badge-room">{{ $c->ruang_kelas }}</span></td>
-                                <td class="text-white">{{ ucfirst($c->hari) }}</td>
-                                <td class="text-white">{{ $c->jam }}</td>
-                                <td><span class="text-white">{{ $c->tahun_ajaran }}</span></td>
-                                <td>
-                                    <div class="d-flex justify-content-center">
-                                        <form action="{{ route('kelas.destroy', $c->id) }}" method="POST" class="m-0" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kelas ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-table-delete">Hapus Kelas</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            </div> <!-- /d-md-flex -->
+            
         </div>
     </div>
+</nav>
 
-    <footer>
-        <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center">
-            <div class="footer-logo-container mb-2 mb-sm-0">
-                <img src="{{ asset('images/Logo-ITBSS.png') }}" alt="Logo ITBSS Footer" />
+<main>
+
+    <div class="container py-4">
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+                <h2 class="fw-bold mb-1">
+                    Jadwal Kuliah
+                </h2>
+
+                <p class="text-muted">
+                    Kelola seluruh data jadwal kuliah Institut Teknologi & Bisnis Sabda Setia
+                </p>
             </div>
-            <p class="mb-0 small text-white">
-                Copyright © 2026 Institut Teknologi & Bisnis Sabda Setia. All rights reserved - Aprianto.
-            </p>
-        </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+            <div>
+                @if(Auth::user()->role == 'admin')
+                <a href="{{ action([App\Http\Controllers\KelasController::class, 'create']) }}"
+                    class="btn btn-primary">
+
+                    <i class="bi bi-plus-circle"></i>
+                    Tambah Jadwal
+
+                </a>
+                @endif
+            </div>
+
+        </div>
+
+        <!-- Card -->
+        <div class="card border-0 shadow rounded-4">
+
+            <div class="card-body">
+
+                <!-- Search -->
+                <div class="row mb-4">
+
+                    <div class="col-md-4 ms-auto">
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Cari jadwal...">
+
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>Kode Kelas</th>
+                                <th>Dosen</th>
+                                <th>Mata Kuliah</th>
+                                <th>Ruang</th>
+                                <th>Hari</th>
+                                <th>Jam</th>
+                                <th>Tahun Ajaran</th>
+                                <th class="text-center" width="15%">Aksi</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @forelse($kelas as $k)
+
+                            <tr>
+
+                                <td>{{ $loop->iteration }}</td>
+
+                                <td>
+                                    <span class="badge bg-primary">
+                                        {{ $k->kode_kelas }}
+                                    </span>
+                                </td>
+
+                                <td>{{ $k->dosen->Fullname }}</td>
+
+                                <td>
+                                    <strong>{{ $k->mataKuliah->Nama_Mata_Kuliah }}</strong>
+                                </td>
+
+                                <td>{{ $k->ruang_kelas }}</td>
+
+                                <td>{{ $k->hari }}</td>
+
+                                <td>{{ $k->jam }}</td>
+
+                                <td>{{ $k->tahun_ajaran }}</td>
+
+                                <td class="text-center">
+
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        @if(Auth::user()->role == 'admin')
+
+                                        <form action="{{ action([App\Http\Controllers\KelasController::class, 'destroy'], [$k->id]) }}"
+                                            method="post"
+                                            onsubmit="return confirm('Yakin ingin menghapus jadwal ini?')">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash"></i> Hapus
+                                            </button>
+
+                                        </form>
+
+                                        @else
+
+                                        <span class="text-muted">Lihat saja</span>
+
+                                        @endif
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            @empty
+
+                            <tr>
+
+                                <td colspan="9" class="text-center text-muted py-4">
+
+                                    Belum ada data jadwal kuliah.
+
+                                </td>
+
+                            </tr>
+
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+@include('footer')
 
 </body>
 </html>
