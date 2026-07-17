@@ -1,13 +1,24 @@
 <!doctype html>
 <html lang="en">
-    <head>
+
+<head>
+
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>KRS - SIAKAD ITBSS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Data KRS - SIAKAD ITBSS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
+
         html,
         body{
             height:100%;
@@ -19,384 +30,433 @@
             display:flex;
             flex-direction:column;
             padding-top:90px;
+            background:#f5f7fb;
         }
 
         main{
             flex:1 0 auto;
         }
 
-        footer{
-            margin-top:auto;
-        }
-
-        body{
-            background:#f5f7fb;
-        }
-
-        .page-card{
-            background:#fff;
-            border-radius:18px;
-            box-shadow:0 10px 30px rgba(0,0,0,.08);
+        .table-responsive{
+            border-radius:14px;
             overflow:hidden;
         }
 
-        .page-header{
-            padding:25px 30px;
-            border-bottom:1px solid #ececec;
-        }
-
-        .page-title{
-            font-size:30px;
-            font-weight:700;
-            color:#1f2937;
-        }
-
-        .page-subtitle{
-            color:#6b7280;
-            margin-bottom:0;
-        }
-
-        .page-body{
-            padding:30px;
-        }
-
-        .form-label{
-            font-weight:600;
-            color:#374151;
-        }
-
-        .form-control,
-        .form-select{
+        .search-box{
             border-radius:10px;
-            padding:11px 14px;
             border:1px solid #d1d5db;
+            padding:10px 14px;
         }
 
-        .form-control:focus{
-            box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
+        .search-box:focus{
             border-color:#2563eb;
+            box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
         }
 
-        .btn-save{
-            background:#2563eb;
-            color:white;
-            border:none;
+        .btn-action{
             border-radius:10px;
-            padding:10px 25px;
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            padding:6px 12px;
         }
 
-        .btn-save:hover{
-            background:#1d4ed8;
-            color:white;
+        .badge-pill{
+            border-radius:999px;
+            padding:.55rem .9rem;
         }
 
-        .btn-cancel{
-            border-radius:10px;
-            padding:10px 25px;
-        }
     </style>
+
 </head>
 
 <body class="d-flex flex-column h-100">
+
 <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm fixed-top py-2">
-    <div class="container-fluid px-md-5"> <!-- Menggunakan container-fluid agar benar-benar mentok ke ujung layar dengan padding horizontal aman -->
-        
-        <!-- BRAND LOGO (Paling Kiri) -->
-        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-            <img src="{{ asset('img/download (4).png') }}" alt="Logo Itbss" width="50" height="auto">
+
+    <div class="container-fluid px-md-5">
+
+        <a class="navbar-brand d-flex align-items-center gap-2"
+           href="/">
+
+            <img src="{{ asset('img/download (4).png') }}"
+                 width="50">
+
         </a>
-        
-        <!-- Toggler untuk Mobile View -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+
             <span class="navbar-toggler-icon"></span>
+
         </button>
-        
-        <!-- KONTEN NAVBAR -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
-            <!-- Pembungkus internal untuk membagi kiri & kanan secara ekstrem -->
+
+        <div class="collapse navbar-collapse"
+             id="navbarSupportedContent">
+
             <div class="d-md-flex justify-content-between align-items-center w-100">
-                
-                <!-- MENU AKADEMIK (Mentok Kiri setelah Logo) -->
+
                 <ul class="navbar-nav mb-2 mb-lg-0 fs-6 align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link active fw-semibold" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Menu Academic
-                        </a>
-                        <ul class="dropdown-menu shadow-sm border-0">
 
-                            @auth
+                    {{-- MENU SAMA PERSIS DENGAN FILE LAMAMU --}}
 
-                                @if(Auth::user()->role == 'admin')
+                </ul>
 
-                                    <li><a class="dropdown-item" href="{{ route('dosen.index') }}">Dosen</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('mahasiswa.index') }}">Mahasiswa</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('kelas.index') }}">Kelas</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('jurusan.index') }}">Jurusan</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('matakuliah.index') }}">Mata Kuliah</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.krs.index') }}">KRS</a></li>
+                <div class="d-flex align-items-center mt-2 mt-lg-0">
 
-                                @elseif(Auth::user()->role == 'mahasiswa')
+                    {{-- LOGIN / PROFILE SAMA PERSIS DENGAN FILE LAMAMU --}}
 
-                                    <li><a class="dropdown-item" href="{{ route('krs.index') }}">KRS</a></li>
+                </div>
 
-                                @elseif(Auth::user()->role == 'dosen')
+            </div>
 
-                                    <li><a class="dropdown-item" href="{{ route('dosen.mahasiswa.index') }}">Mahasiswa</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.dosen.index') }}">Dosen</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.kelas.index') }}">Kelas</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.jurusan.index') }}">Jurusan</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.matakuliah.index') }}">Mata Kuliah</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.krs.index') }}">KRS Mahasiswa</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('krsdetail.index') }}">Approval Mata Kuliah</a></li>
+        </div>
+
+    </div>
+
+</nav>
+
+<main>
+
+<div class="container py-4">
+        <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+        <div>
+
+            <h2 class="fw-bold text-dark mb-1">
+
+                Data Kartu Rencana Studi
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Kelola seluruh data Kartu Rencana Studi mahasiswa.
+
+            </p>
+
+        </div>
+
+        @auth
+
+            @if(Auth::user()->role == 'mahasiswa')
+
+                <a href="{{ route('krs.create') }}"
+                   class="btn btn-primary rounded-3 px-4 py-2 shadow-sm d-inline-flex align-items-center gap-2">
+
+                    <i class="bi bi-plus-circle"></i>
+
+                    Tambah KRS
+
+                </a>
+
+            @endif
+
+        @endauth
+
+    </div>
+
+    <!-- Card -->
+
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body p-4">
+
+            <div class="row align-items-center mb-4">
+
+                <div class="col-md-8">
+
+                    @if(session('success'))
+
+                        <div class="alert alert-success alert-dismissible fade show rounded-3 mb-3 mb-md-0 py-2">
+
+                            <i class="bi bi-check-circle-fill me-2"></i>
+
+                            {{ session('success') }}
+
+                            <button class="btn-close"
+                                    data-bs-dismiss="alert"></button>
+
+                        </div>
+
+                    @endif
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="input-group">
+
+                        <span class="input-group-text bg-white border-end-0">
+
+                            <i class="bi bi-search"></i>
+
+                        </span>
+
+                        <input type="text"
+                               class="form-control search-box border-start-0"
+                               placeholder="Cari mahasiswa...">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th width="6%" class="text-center">
+
+                                No
+
+                            </th>
+
+                            <th>
+
+                                NIM
+
+                            </th>
+
+                            <th>
+
+                                Nama Mahasiswa
+
+                            </th>
+
+                            <th>
+
+                                Tahun Ajaran
+
+                            </th>
+
+                            <th>
+
+                                Semester
+
+                            </th>
+
+                            <th>
+
+                                Total SKS
+
+                            </th>
+
+                            <th>
+
+                                Status
+
+                            </th>
+
+                            <th width="22%"
+                                class="text-center">
+
+                                Aksi
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>                        @forelse($krs as $k)
+
+                        <tr>
+
+                            <td class="text-center">
+
+                                {{ $loop->iteration }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle badge-pill">
+
+                                    {{ $k->mahasiswa->NIM }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <div class="fw-semibold">
+
+                                    {{ $k->mahasiswa->Fullname }}
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                {{ $k->tahun_ajaran }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-secondary badge-pill">
+
+                                    {{ ucfirst($k->semester) }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success badge-pill">
+
+                                    {{ $k->total_sks }} SKS
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                @if($k->status == 'approved')
+
+                                    <span class="badge bg-success badge-pill">
+
+                                        Approved
+
+                                    </span>
+
+                                @elseif($k->status == 'pending')
+
+                                    <span class="badge bg-warning text-dark badge-pill">
+
+                                        Pending
+
+                                    </span>
+
+                                @elseif($k->status == 'partial')
+
+                                    <span class="badge bg-info badge-pill">
+
+                                        Partial
+
+                                    </span>
+
+                                @else
+
+                                    <span class="badge bg-danger badge-pill">
+
+                                        Declined
+
+                                    </span>
 
                                 @endif
 
-                            @endauth
+                            </td>
 
-                        </ul>
-                    </li>
-                </ul>
+                            <td>
 
-                <!-- BAGIAN AUTENTIKASI (Mentok Kanan) -->
-                <div class="d-flex align-items-center mt-2 mt-lg-0">
-                    @guest
-                    <div class="d-flex gap-2 w-100 justify-content-center">
-                        <a class="btn btn-primary rounded-3 px-4" href="{{ action([App\Http\Controllers\AuthController::class, 'loginView']) }}">
-                            Login
-                        </a>
-                        <a class="btn btn-outline-primary rounded-3 px-4" href="{{ action([App\Http\Controllers\AuthController::class, 'registerView']) }}">
-                            Register
-                        </a>
-                    </div>
-                    @endguest
-
-                    @auth
-                    <div class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2 fw-semibold" data-bs-toggle="dropdown">
-                            <img src="{{ asset('img/user.png') }}" width="32" height="32" class="rounded-circle border">
-                            {{ Auth::user()->name }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
-                            <li><a href="" class="dropdown-item">👤 Profile Akun</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item text-danger">🚪 Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    @endauth
-                </div>
-
-            </div> <!-- /d-md-flex -->
-            
-        </div>
-    </div>
-</nav>
-
-   <main>
-
-    <div class="container py-4">
-
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-
-            <div>
-
-                <h2 class="fw-bold mb-1">
-                    Data Kartu Rencana Studi (KRS)
-                </h2>
-
-                <p class="text-muted">
-                    Kelola seluruh data pengambilan mata kuliah mahasiswa.
-                </p>
-
-            </div>
-
-            <div>
-
-                @auth
-                @if(Auth::user()->role == 'mahasiswa')
-                <a href="{{ route('krs.create') }}" class="btn btn-primary">
-                    Tambah KRS
-                </a>
-                @endif
-                @endauth
-
-            </div>
-
-        </div>
-
-        <!-- Card -->
-        <div class="card border-0 shadow rounded-4">
-
-            <div class="card-body">
-
-                <!-- Search -->
-                <div class="row mb-4">
-
-                    <div class="col-md-4 ms-auto">
-
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Cari mahasiswa...">
-
-                    </div>
-
-                </div>
-
-                <div class="table-responsive">
-
-                    <table class="table table-hover align-middle">
-
-                        <thead class="table-light">
-
-                            <tr>
-
-                                <th width="8%">No</th>
-                                <th>NIM</th>
-                                <th>Nama Mahasiswa</th>
-                                <th>Tahun Ajaran</th>
-                                <th>Semester</th>
-                                <th>Total SKS</th>
-                                <th>Status</th>
-                                <th class="text-center" width="18%">Aksi</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @forelse($krs as $k)
-
-                            <tr>
-
-                                <td>{{ $loop->iteration }}</td>
-
-                                <td>
-
-                                    <span class="badge bg-primary">
-                                        {{ $k->mahasiswa->NIM }}
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <strong>{{ $k->mahasiswa->Fullname }}</strong>
-
-                                </td>
-
-                                <td>
-
-                                    {{ $k->tahun_ajaran }}
-
-                                </td>
-
-                                <td>
-
-                                    <span class="badge bg-secondary">
-                                        {{ ucfirst($k->semester) }}
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <span class="badge bg-success">
-                                        {{ $k->total_sks }} SKS
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    @if($k->status == 'approved')
-                                        <span class="badge bg-success">Approved</span>
-                                    @elseif($k->status == 'pending')
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    @elseif($k->status == 'partial')
-                                        <span class="badge bg-info">Partial</span>
-                                    @else
-                                        <span class="badge bg-danger">Declined</span>
-                                    @endif
-                                </td>
-
-                                <td>
-
-                                    <div class="d-flex justify-content-center gap-2">
+                                <div class="d-flex justify-content-center gap-2 flex-wrap">
 
                                     @if(Auth::user()->role == 'dosen')
 
-                                        <a href="{{ route('dosen.krs.show',$k->id) }}" class="btn btn-info btn-sm text-white">
+                                        <a href="{{ route('dosen.krs.show',$k->id) }}"
+                                           class="btn btn-outline-info btn-sm btn-action">
+
                                             <i class="bi bi-eye"></i>
+
                                             Detail
+
                                         </a>
 
                                     @elseif(Auth::user()->role == 'mahasiswa')
 
-                                        <a href="{{ route('krs.show',$k->id) }}" class="btn btn-info btn-sm text-white">
+                                        <a href="{{ route('krs.show',$k->id) }}"
+                                           class="btn btn-outline-info btn-sm btn-action">
+
                                             <i class="bi bi-eye"></i>
+
                                             Detail
+
                                         </a>
 
                                     @endif
 
                                     @if(Auth::user()->role == 'admin')
 
-                                        <a href="{{ route('admin.krs.show',$k->id) }}" class="btn btn-info btn-sm text-white">
+                                        <a href="{{ route('admin.krs.show',$k->id) }}"
+                                           class="btn btn-outline-info btn-sm btn-action">
+
                                             <i class="bi bi-eye"></i>
+
                                             Detail
+
                                         </a>
 
-                                        <form action="{{ route('admin.krs.destroy', $k->id) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus data KRS ini?')">
+                                        <form action="{{ route('admin.krs.destroy',$k->id) }}"
+                                              method="POST"
+                                              onsubmit="return confirm('Yakin ingin menghapus data KRS ini?')">
 
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="btn btn-danger btn-sm">
+                                            <button type="submit"
+                                                    class="btn btn-danger btn-sm btn-action">
+
                                                 <i class="bi bi-trash"></i>
+
                                                 Hapus
+
                                             </button>
 
                                         </form>
 
                                     @endif
 
-                                    </div>
+                                </div>
 
-                                </td>
+                            </td>
 
-                            </tr>
+                        </tr>
 
-                            @empty
+                        @empty
 
-                            <tr>
+                        <tr>
 
-                                <td colspan="7" class="text-center text-muted py-4">
+                            <td colspan="8"
+                                class="text-center py-5">
 
-                                    Belum ada data KRS.
+                                <i class="bi bi-journal-x display-5 text-secondary d-block mb-3"></i>
 
-                                </td>
+                                <h5 class="fw-semibold text-secondary">
 
-                            </tr>
+                                    Belum Ada Data KRS
 
-                            @endforelse
+                                </h5>
 
-                        </tbody>
+                                <p class="text-muted mb-0">
 
-                    </table>
+                                    Data Kartu Rencana Studi belum tersedia.
 
-                </div>
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -404,9 +464,12 @@
 
     </div>
 
+</div>
+
 </main>
 
 @include('footer')
 
 </body>
+
 </html>

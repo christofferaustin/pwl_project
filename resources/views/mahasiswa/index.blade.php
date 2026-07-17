@@ -202,181 +202,276 @@
 
 <main>
 
-    <div class="container py-4">
+<div class="container py-4">
 
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Header -->
 
-            <div>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
 
-                <h2 class="fw-bold mb-1">
-                    Data Mahasiswa
-                </h2>
+        <div>
 
-                <p class="text-muted">
-                    Kelola seluruh data mahasiswa Institut Teknologi & Bisnis Sabda Setia.
-                </p>
+            <h2 class="fw-bold text-dark mb-1">
 
-            </div>
+                Data Mahasiswa
 
-            <div>
+            </h2>
 
-                @if(Auth::user()->role == 'admin')
-                <a href="{{ action([App\Http\Controllers\MahasiswaController::class,'create']) }}"
-                   class="btn btn-primary">
+            <p class="text-muted mb-0">
 
-                    <i class="bi bi-plus-circle"></i>
-                    Tambah Mahasiswa
+                Kelola seluruh data mahasiswa Institut Teknologi & Bisnis Sabda Setia.
 
-                </a>
-                @endif
-
-            </div>
+            </p>
 
         </div>
 
-        <!-- Card -->
-        <div class="card border-0 shadow rounded-4">
+        @if(Auth::user()->role == 'admin')
 
-            <div class="card-body">
+        <a href="{{ action([App\Http\Controllers\MahasiswaController::class,'create']) }}"
+           class="btn btn-primary rounded-3 px-4 py-2 shadow-sm d-inline-flex align-items-center gap-2">
 
-                <!-- Search -->
-                <div class="row mb-4">
+            <i class="bi bi-plus-circle"></i>
 
-                    <div class="col-md-4 ms-auto">
+            Tambah Mahasiswa
 
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Cari mahasiswa...">
+        </a>
+
+        @endif
+
+    </div>
+
+    <!-- Card -->
+
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body p-4">
+
+            <div class="row align-items-center mb-4">
+
+                <div class="col-md-8">
+
+                    @if(session('success'))
+
+                        <div class="alert alert-success alert-dismissible fade show rounded-3 mb-3 mb-md-0 py-2">
+
+                            <i class="bi bi-check-circle-fill me-2"></i>
+
+                            {{ session('success') }}
+
+                            <button class="btn-close"
+                                    data-bs-dismiss="alert"></button>
+
+                        </div>
+
+                    @endif
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="input-group">
+
+                        <span class="input-group-text bg-white border-end-0">
+
+                            <i class="bi bi-search"></i>
+
+                        </span>
+
+                        <input type="text"
+                               class="form-control search-box border-start-0"
+                               placeholder="Cari mahasiswa...">
 
                     </div>
 
                 </div>
 
-                <div class="table-responsive">
+            </div>
 
-                    <table class="table table-hover align-middle">
+            <div class="table-responsive">
 
-                        <thead class="table-light">
+                <table class="table table-hover align-middle mb-0">
 
-                            <tr>
+                    <thead class="table-light">
 
-                                <th width="5%">No</th>
-                                <th>Nama Lengkap</th>
-                                <th>NIM</th>
-                                <th>Tempat / Tanggal Lahir</th>
-                                <th>Alamat</th>
-                                <th>Tanggal Dibuat</th>
-                                <th class="text-center" width="18%">Aksi</th>
+                        <tr>
 
-                            </tr>
+                            <th width="5%" class="text-center">
 
-                        </thead>
+                                No
 
-                        <tbody>
+                            </th>
 
-                            @forelse($mahasiswa as $m)
+                            <th>
 
-                            <tr>
+                                Nama Lengkap
 
-                                <td>{{ $loop->iteration }}</td>
+                            </th>
 
-                                <td>
+                            <th>
 
-                                    <strong>{{ $m->Fullname }}</strong>
+                                NIM
 
-                                </td>
+                            </th>
 
-                                <td>
+                            <th>
 
-                                    <span class="badge bg-primary">
-                                        {{ $m->NIM }}
-                                    </span>
+                                Tempat / Tanggal Lahir
 
-                                </td>
+                            </th>
 
-                                <td>
+                            <th>
 
-                                    {{ $m->Tempat_Lahir }},
-                                    {{ \Carbon\Carbon::parse($m->Tanggal_Lahir)->format('d M Y') }}
+                                Alamat
 
-                                </td>
+                            </th>
 
-                                <td>
+                            <th>
 
-                                    {{ $m->Alamat }}
+                                Dibuat
 
-                                </td>
+                            </th>
 
-                                <td>
+                            <th width="22%"
+                                class="text-center">
 
-                                    {{ $m->created_at->format('d M Y') }}
+                                Aksi
 
-                                </td>
+                            </th>
 
-                                <td>
+                        </tr>
 
-                                    <div class="d-flex justify-content-center gap-2">
+                    </thead>
 
-                                        @if(Auth::user()->role == 'admin')
+                    <tbody>                        @forelse($mahasiswa as $m)
 
-                                        <a href="{{ action([App\Http\Controllers\MahasiswaController::class,'edit'],[$m->id]) }}"
-                                           class="btn btn-primary btn-sm">
+                        <tr>
 
-                                            <i class="bi bi-pencil-square"></i>
-                                            Edit
+                            <td class="text-center text-muted fw-medium">
 
-                                        </a>
+                                {{ $loop->iteration }}
 
-                                        <form action="{{ action([App\Http\Controllers\MahasiswaController::class,'destroy'],[$m->id]) }}"
-                                              method="POST"
-                                              onsubmit="return confirm('Yakin ingin menghapus mahasiswa ini?')">
+                            </td>
 
-                                            @csrf
-                                            @method('DELETE')
+                            <td>
 
-                                            <button type="submit"
-                                                    class="btn btn-danger btn-sm">
+                                <div class="fw-semibold">
 
-                                                <i class="bi bi-trash"></i>
-                                                Hapus
+                                    {{ $m->Fullname }}
 
-                                            </button>
+                                </div>
 
-                                        </form>
+                            </td>
 
-                                        @else
+                            <td>
 
-                                        <span class="text-muted">Lihat saja</span>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2">
 
-                                        @endif
+                                    {{ $m->NIM }}
 
-                                    </div>
+                                </span>
 
-                                </td>
+                            </td>
 
-                            </tr>
+                            <td>
 
-                            @empty
+                                {{ $m->Tempat_Lahir }},
 
-                            <tr>
+                                {{ \Carbon\Carbon::parse($m->Tanggal_Lahir)->format('d M Y') }}
 
-                                <td colspan="8" class="text-center text-muted py-4">
+                            </td>
 
-                                    Belum ada data mahasiswa.
+                            <td>
 
-                                </td>
+                                {{ $m->Alamat }}
 
-                            </tr>
+                            </td>
 
-                            @endforelse
+                            <td>
 
-                        </tbody>
+                                {{ $m->created_at->format('d M Y') }}
 
-                    </table>
+                            </td>
 
-                </div>
+                            <td>
+
+                                <div class="d-flex justify-content-center gap-2 flex-wrap">
+
+                                    <a href="{{ action([App\Http\Controllers\MahasiswaController::class,'show'],[$m->id]) }}"
+                                       class="btn btn-sm btn-outline-info btn-action">
+
+                                        <i class="bi bi-eye"></i>
+
+                                        Detail
+
+                                    </a>
+
+                                    @if(Auth::user()->role == 'admin')
+
+                                    <a href="{{ action([App\Http\Controllers\MahasiswaController::class,'edit'],[$m->id]) }}"
+                                       class="btn btn-sm btn-primary btn-action">
+
+                                        <i class="bi bi-pencil-square"></i>
+
+                                        Edit
+
+                                    </a>
+
+                                    <form action="{{ action([App\Http\Controllers\MahasiswaController::class,'destroy'],[$m->id]) }}"
+                                          method="POST"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Yakin ingin menghapus mahasiswa ini?')">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="btn btn-sm btn-danger btn-action">
+
+                                            <i class="bi bi-trash"></i>
+
+                                            Hapus
+
+                                        </button>
+
+                                    </form>
+
+                                    @endif
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        @empty
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center py-5">
+
+                                <i class="bi bi-people display-5 text-secondary d-block mb-3"></i>
+
+                                <h5 class="fw-semibold text-secondary">
+
+                                    Belum Ada Data Mahasiswa
+
+                                </h5>
+
+                                <p class="text-muted mb-0">
+
+                                    Silakan tambahkan data mahasiswa terlebih dahulu.
+
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -384,9 +479,12 @@
 
     </div>
 
+</div>
+
 </main>
 
 @include('footer')
 
 </body>
+
 </html>

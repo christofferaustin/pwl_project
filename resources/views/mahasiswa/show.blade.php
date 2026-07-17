@@ -202,51 +202,152 @@
 
 <main>
 
-    <div class="container py-5">
+<div class="container py-4">
 
-        <div class="row justify-content-center">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
 
-            <div class="col-lg-8">
+        <div>
 
-                <div class="card border-0 shadow rounded-4">
+            <h2 class="fw-bold mb-1">
 
-                    <div class="card-header bg-white py-4 border-bottom d-flex justify-content-between align-items-center">
+                Detail Mahasiswa
 
-                        <div>
-                            <h3 class="fw-bold mb-1">Detail Mahasiswa</h3>
-                            <small class="text-muted">Informasi lengkap data mahasiswa.</small>
-                        </div>
+            </h2>
 
-                        <a href="{{ route('mahasiswa.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
+            <p class="text-muted mb-0">
 
-                    </div>
+                Informasi lengkap mengenai data mahasiswa.
 
-                    <div class="card-body p-4">
+            </p>
 
-                        <table class="table table-borderless mb-0">
-                            <tr>
-                                <th width="220">Nama Lengkap</th>
-                                <td>: {{ $mahasiswa->Fullname }}</td>
-                            </tr>
-                            <tr>
-                                <th>NIM</th>
-                                <td>: {{ $mahasiswa->NIM }}</td>
-                            </tr>
-                            <tr>
-                                <th>Tempat, Tanggal Lahir</th>
-                                <td>: {{ $mahasiswa->Tempat_Lahir }}, {{ \Carbon\Carbon::parse($mahasiswa->Tanggal_Lahir)->format('d M Y') }}</td>
-                            </tr>
-                            <tr>
-                                <th>Alamat</th>
-                                <td>: {{ $mahasiswa->Alamat }}</td>
-                            </tr>
-                            <tr>
-                                <th>Akun Login</th>
-                                <td>: {{ $mahasiswa->user->name ?? '-' }} {{ $mahasiswa->user ? '('.$mahasiswa->user->email.')' : '(belum ditautkan)' }}</td>
-                            </tr>
-                        </table>
+        </div>
 
-                    </div>
+        <a href="{{ route('mahasiswa.index') }}"
+           class="btn btn-primary rounded-3 px-4">
+
+            <i class="bi bi-arrow-left-circle me-2"></i>
+
+            Kembali
+
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow rounded-4">
+
+        <div class="card-body p-4">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    <i class="bi bi-person-fill text-primary me-2"></i>
+
+                    Nama Lengkap
+
+                </div>
+
+                <div class="info-value">
+
+                    {{ $mahasiswa->Fullname }}
+
+                </div>
+
+            </div>
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    <i class="bi bi-person-badge-fill text-primary me-2"></i>
+
+                    NIM
+
+                </div>
+
+                <div class="info-value">
+
+                    <span class="badge bg-primary-subtle text-primary border rounded-pill px-3 py-2">
+
+                        {{ $mahasiswa->NIM }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    <i class="bi bi-calendar-event text-primary me-2"></i>
+
+                    Tempat / Tanggal Lahir
+
+                </div>
+
+                <div class="info-value">
+
+                    {{ $mahasiswa->Tempat_Lahir }},
+
+                    {{ \Carbon\Carbon::parse($mahasiswa->Tanggal_Lahir)->format('d F Y') }}
+
+                </div>
+
+            </div>
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+
+                    Alamat
+
+                </div>
+
+                <div class="info-value">
+
+                    {{ $mahasiswa->Alamat }}
+
+                </div>
+
+            </div>
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    <i class="bi bi-person-circle text-primary me-2"></i>
+
+                    Akun Login
+
+                </div>
+
+                <div class="info-value">
+
+                    {{ $mahasiswa->user->name ?? '-' }}
+
+                    @if($mahasiswa->user)
+
+                        <br>
+
+                        <small class="text-muted">
+
+                            {{ $mahasiswa->user->email }}
+
+                        </small>
+
+                    @else
+
+                        <small class="text-danger">
+
+                            Belum ditautkan
+
+                        </small>
+
+                    @endif
 
                 </div>
 
@@ -255,6 +356,8 @@
         </div>
 
     </div>
+
+</div>
 
 </main>
 

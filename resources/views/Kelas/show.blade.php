@@ -1,13 +1,16 @@
 <!doctype html>
 <html lang="en">
-    <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kelas - SIAKAD ITBSS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <title>Detail Kelas - SIAKAD ITBSS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
+
         html,
         body{
             height:100%;
@@ -19,220 +22,366 @@
             display:flex;
             flex-direction:column;
             padding-top:90px;
+            background:#f5f7fb;
         }
 
         main{
             flex:1 0 auto;
         }
 
-        footer{
-            margin-top:auto;
-        }
-
-        body{
-            background:#f5f7fb;
-        }
-
-        .page-card{
-            background:#fff;
+        .info-card{
+            border:none;
             border-radius:18px;
-            box-shadow:0 10px 30px rgba(0,0,0,.08);
             overflow:hidden;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
         }
 
-        .page-header{
-            padding:25px 30px;
+        .info-item{
+            padding:18px 0;
             border-bottom:1px solid #ececec;
         }
 
-        .page-title{
-            font-size:30px;
-            font-weight:700;
+        .info-item:last-child{
+            border-bottom:none;
+        }
+
+        .info-label{
+            font-weight:600;
+            color:#6b7280;
+            margin-bottom:6px;
+        }
+
+        .info-value{
+            font-size:16px;
+            font-weight:600;
             color:#1f2937;
         }
 
-        .page-subtitle{
-            color:#6b7280;
-            margin-bottom:0;
-        }
-
-        .page-body{
-            padding:30px;
-        }
-
-        .form-label{
-            font-weight:600;
-            color:#374151;
-        }
-
-        .form-control,
-        .form-select{
-            border-radius:10px;
-            padding:11px 14px;
-            border:1px solid #d1d5db;
-        }
-
-        .form-control:focus{
-            box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
-            border-color:#2563eb;
-        }
-
-        .btn-save{
+        .badge-code{
             background:#2563eb;
             color:white;
-            border:none;
-            border-radius:10px;
-            padding:10px 25px;
+            padding:8px 14px;
+            border-radius:999px;
+            font-size:14px;
+            font-weight:600;
         }
 
-        .btn-save:hover{
-            background:#1d4ed8;
-            color:white;
-        }
-
-        .btn-cancel{
-            border-radius:10px;
-            padding:10px 25px;
-        }
     </style>
+
 </head>
 
 <body class="d-flex flex-column h-100">
+
 <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm fixed-top py-2">
-    <div class="container-fluid px-md-5"> <!-- Menggunakan container-fluid agar benar-benar mentok ke ujung layar dengan padding horizontal aman -->
-        
-        <!-- BRAND LOGO (Paling Kiri) -->
+
+    <div class="container-fluid px-md-5">
+
         <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-            <img src="{{ asset('img/download (4).png') }}" alt="Logo Itbss" width="50" height="auto">
+            <img src="{{ asset('img/download (4).png') }}" width="50">
         </a>
-        
-        <!-- Toggler untuk Mobile View -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+
             <span class="navbar-toggler-icon"></span>
+
         </button>
-        
-        <!-- KONTEN NAVBAR -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
-            <!-- Pembungkus internal untuk membagi kiri & kanan secara ekstrem -->
+
+        <div class="collapse navbar-collapse"
+             id="navbarSupportedContent">
+
             <div class="d-md-flex justify-content-between align-items-center w-100">
-                
-                <!-- MENU AKADEMIK (Mentok Kiri setelah Logo) -->
+
                 <ul class="navbar-nav mb-2 mb-lg-0 fs-6 align-items-center">
+
                     <li class="nav-item">
-                        <a class="nav-link active fw-semibold" aria-current="page" href="/">Home</a>
+                        <a class="nav-link active fw-semibold" href="/">
+                            Home
+                        </a>
                     </li>
+
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           data-bs-toggle="dropdown">
+
                             Menu Academic
+
                         </a>
+
                         <ul class="dropdown-menu shadow-sm border-0">
+                        <main>
 
-                            @auth
+<div class="container py-5">
 
-                                @if(Auth::user()->role == 'admin')
+    <div class="row justify-content-center">
 
-                                    <li><a class="dropdown-item" href="{{ route('dosen.index') }}">Dosen</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('mahasiswa.index') }}">Mahasiswa</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('kelas.index') }}">Kelas</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('jurusan.index') }}">Jurusan</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('matakuliah.index') }}">Mata Kuliah</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.krs.index') }}">KRS</a></li>
+        <div class="col-lg-9">
 
-                                @elseif(Auth::user()->role == 'mahasiswa')
+            <div class="card info-card">
 
-                                    <li><a class="dropdown-item" href="{{ route('krs.index') }}">KRS</a></li>
+                <!-- Header -->
+                <div class="card-header bg-white py-4 border-bottom d-flex justify-content-between align-items-center">
 
-                                @elseif(Auth::user()->role == 'dosen')
+                    <div>
 
-                                    <li><a class="dropdown-item" href="{{ route('dosen.mahasiswa.index') }}">Mahasiswa</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.dosen.index') }}">Dosen</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.kelas.index') }}">Kelas</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.jurusan.index') }}">Jurusan</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.matakuliah.index') }}">Mata Kuliah</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('dosen.krs.index') }}">KRS Mahasiswa</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('krsdetail.index') }}">Approval Mata Kuliah</a></li>
+                        <h3 class="fw-bold mb-1">
 
-                                @endif
+                            Detail Jadwal Kuliah
 
-                            @endauth
+                        </h3>
 
-                        </ul>
-                    </li>
-                </ul>
+                        <small class="text-muted">
 
-                <!-- BAGIAN AUTENTIKASI (Mentok Kanan) -->
-                <div class="d-flex align-items-center mt-2 mt-lg-0">
-                    @guest
-                    <div class="d-flex gap-2 w-100 justify-content-center">
-                        <a class="btn btn-primary rounded-3 px-4" href="{{ action([App\Http\Controllers\AuthController::class, 'loginView']) }}">
-                            Login
-                        </a>
-                        <a class="btn btn-outline-primary rounded-3 px-4" href="{{ action([App\Http\Controllers\AuthController::class, 'registerView']) }}">
-                            Register
-                        </a>
+                            Informasi lengkap mengenai jadwal perkuliahan.
+
+                        </small>
+
                     </div>
-                    @endguest
 
-                    @auth
-                    <div class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2 fw-semibold" data-bs-toggle="dropdown">
-                            <img src="{{ asset('img/user.png') }}" width="32" height="32" class="rounded-circle border">
-                            {{ Auth::user()->name }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
-                            <li><a href="" class="dropdown-item">👤 Profile Akun</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item text-danger">🚪 Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    @endauth
+                    <a href="{{ route('kelas.index') }}"
+                       class="btn btn-outline-secondary rounded-3">
+
+                        <i class="bi bi-arrow-left"></i>
+
+                        Kembali
+
+                    </a>
+
                 </div>
 
-            </div> <!-- /d-md-flex -->
-            
-        </div>
-    </div>
-</nav>
+                <!-- Body -->
 
-<main>
+                <div class="card-body p-4">
 
-    <div class="container py-5">
+                    <div class="info-item">
 
-        <div class="row justify-content-center">
+                        <div class="info-label">
 
-            <div class="col-lg-8">
+                            <i class="bi bi-bookmark-fill text-primary me-2"></i>
 
-                <div class="card border-0 shadow rounded-4">
+                            Kode Kelas
 
-                    <div class="card-header bg-white py-4 border-bottom d-flex justify-content-between align-items-center">
-
-                        <div>
-                            <h3 class="fw-bold mb-1">Detail Kelas</h3>
-                            <small class="text-muted">Informasi lengkap data kelas.</small>
                         </div>
 
-                        <a href="{{ route('kelas.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
+                        <div class="info-value">
+
+                            <span class="badge-code">
+
+                                {{ $kelas->kode_kelas }}
+
+                            </span>
+
+                        </div>
 
                     </div>
 
-                    <div class="card-body p-4">
+                    <div class="info-item">
 
-                        <table class="table table-borderless mb-0">
-                            <tr><th width="220">Kode Kelas</th><td>: {{ $kelas->kode_kelas }}</td></tr>
-                            <tr><th>Mata Kuliah</th><td>: {{ $kelas->mataKuliah->Nama_Mata_Kuliah ?? '-' }}</td></tr>
-                            <tr><th>Dosen</th><td>: {{ $kelas->dosen->Fullname ?? '-' }}</td></tr>
-                            <tr><th>Hari / Jam</th><td>: {{ ucfirst($kelas->hari) }}, {{ $kelas->jam }}</td></tr>
-                            <tr><th>Tahun Ajaran</th><td>: {{ $kelas->tahun_ajaran }}</td></tr>
-                            <tr><th>Semester</th><td>: {{ ucfirst($kelas->semester) }}</td></tr>
-                            <tr><th>Ruang</th><td>: {{ $kelas->ruang_kelas }}</td></tr>
-                            <tr><th>Kapasitas</th><td>: {{ $kelas->jumlah_mahasiswa }} / {{ $kelas->jumlah_max }}</td></tr>
-                        </table>
+                        <div class="info-label">
+
+                            <i class="bi bi-journal-bookmark-fill text-primary me-2"></i>
+
+                            Mata Kuliah
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ $kelas->mataKuliah->Nama_Mata_Kuliah ?? '-' }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-person-badge-fill text-primary me-2"></i>
+
+                            Dosen Pengampu
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ $kelas->dosen->Fullname ?? '-' }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-calendar-week-fill text-primary me-2"></i>
+
+                            Hari Perkuliahan
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ ucfirst($kelas->hari) }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-clock-fill text-primary me-2"></i>
+
+                            Jam Perkuliahan
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ $kelas->jam }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-building-fill text-primary me-2"></i>
+
+                            Ruang Kelas
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ $kelas->ruang_kelas }}
+
+                        </div>
+
+                    </div>
+                                        <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-mortarboard-fill text-primary me-2"></i>
+
+                            Tahun Ajaran
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ $kelas->tahun_ajaran }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-book-half text-primary me-2"></i>
+
+                            Semester
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ ucfirst($kelas->semester) }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-people-fill text-primary me-2"></i>
+
+                            Kapasitas Mahasiswa
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ $kelas->jumlah_mahasiswa }} / {{ $kelas->jumlah_max }} Mahasiswa
+
+                        </div>
+
+                    </div>
+
+                    @if(isset($kelas->created_at))
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-calendar-check-fill text-primary me-2"></i>
+
+                            Tanggal Dibuat
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ $kelas->created_at->format('d F Y') }}
+
+                        </div>
+
+                    </div>
+
+                    @endif
+
+                    @if(isset($kelas->updated_at))
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            <i class="bi bi-clock-history text-primary me-2"></i>
+
+                            Terakhir Diperbarui
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ $kelas->updated_at->format('d F Y') }}
+
+                        </div>
+
+                    </div>
+
+                    @endif
+
+                </div>
+
+                <!-- Footer -->
+
+                <div class="card-footer bg-white border-top py-3">
+
+                    <div class="d-flex justify-content-end">
+
+                        <a href="{{ route('kelas.index') }}"
+                           class="btn btn-primary rounded-3 px-4">
+
+                            <i class="bi bi-arrow-left-circle me-2"></i>
+
+                            Kembali ke Data Kelas
+
+                        </a>
 
                     </div>
 
@@ -243,6 +392,8 @@
         </div>
 
     </div>
+
+</div>
 
 </main>
 
